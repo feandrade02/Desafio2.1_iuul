@@ -1,8 +1,6 @@
-const prompt = require('prompt-sync');
-
 class Conversor {
     constructor(apiUrl) {
-        this.apiUrl = apiUrl; //https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair -> my key:45d876608b56543e3d371574
+        this.apiUrl = apiUrl;
       }
 
     // Método para realizar a conversão
@@ -14,16 +12,15 @@ class Conversor {
         }
 
         const data = await response.json();
-        if (data.success === false) {
+        if (data.result === "error") {
             throw new Error("Conversão falhou. Verifique os códigos das moedas.");
         }
 
-        return {
-            rate: data.info.rate,
-            result: data.result.toFixed(2),
-        };
+        return data
         } catch (error) {
         throw new Error(`Erro na conversão: ${error.message}`);
         }
     }  
 }
+
+module.exports = Conversor;
